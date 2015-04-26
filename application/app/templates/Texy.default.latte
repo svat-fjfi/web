@@ -1,0 +1,20 @@
+{* texy presenter *}
+{block head}
+    <style>
+        p {
+            text-align:justify;
+        }
+    </style>
+{/block}
+
+{block script}
+    <script n:syntax="off">
+        $( "table" ).addClass( "table table-striped table-hover" );
+        $( "h1" ).addClass( "page-header" );
+    </script>
+{/block}
+
+{define title}{$title}{/define}
+
+{block content}
+{!$text}

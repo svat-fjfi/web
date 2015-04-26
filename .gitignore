@@ -1,0 +1,15 @@
+application/log/*
+application/temp/*
+application/app/config/config.local.neon
+vendor/*
+nbproject
+deploy
+files/
+
+.htaccess
+.DS_Store
+
+!application/vendor/others
+!.gitignore
+!web.config
+

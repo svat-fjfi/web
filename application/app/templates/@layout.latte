@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{block title|stripTags|trim}{/block} | Seminář vědy a techniky na FJFI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    
+    <link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$basePath}/css/style.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../bower_components/html5shiv/dist/html5shiv.js"></script>
+      <script src="../bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    {block head}{/block}
+  </head>
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+            <a n:href="Homepage:" class="navbar-brand">S.V.A.T.<span class="hidden-sm"> |  Korespondenční seminář vědy a techniky na FJFI</span></a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Seminář<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a n:href="Pravidla: ">Pravidla</a></li>
+                        <li><a n:href="Materialy: ">Materiály</a></li>
+                        <li><a n:href="Odkazy: ">Odkazy</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Aktuální ročník<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a n:if="!$user->isLoggedIn()" n:href="Zadani: ">Zadání</a></li>
+                        <li><a n:href="Vysledky: ">Výsledky</a></li>
+                        <li><a n:href="Vyzkumacek: ">Výzkumáček</a></li>
+                    </ul>
+                </li>
+                <li n:if="$user->isLoggedIn()"><a n:href="Soubory: ">Soubory</a></li>
+            </ul>
+
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li n:if="!$user->isLoggedIn()"><a n:href="Sign:in">Přihlášení pro organizátory</a></li>
+                <li class="dropdown" n:if="$user->isLoggedIn()">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-user"></i> {$user->getIdentity()->username|firstUpper} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="download">
+                        <li><a n:href="User:password">Změna hesla</a></li>
+                        <li><a n:href="Sign:out">Odhlásit se</a></li>
+                    </ul>
+                </li>    
+                <li><a href="https://www.facebook.com/seminarvedyatechniky"><i class="fa fa-facebook"></i></a></li>
+            </ul>
+
+            
+          
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container" role="main">   
+        <div class="row">
+            <div class="col-md-12">                
+                {snippet flashMessages}
+                    <div class="bs-component">
+                        <div n:foreach="$flashes as $flash" class="alert alert-dismissible alert-{$flash->type}">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        {$flash->message}
+                      </div>
+                    <div id="source-button" class="btn btn-primary btn-xs" style="display: none;">&lt; &gt;</div></div>
+                {/snippet}
+
+                {include #content}
+            </div>
+        </div>
+        
+        <footer style="padding-top:20px; margin:30px 0px; border-top: 1px solid #dddddd">
+            <div class="row">
+            
+            <div class="col-lg-12">
+
+                <ul class="list-unstyled">
+                  <li><a href="http://www.jaderka.cz">Jaderka.cz - portál pro zájemce o studium FJFI</a></li>
+                  <li><a href="http://www.fjfi.cvut.cz">FJFI ČVUT v Praze</a></li>
+                  <li><a href="http://www.cvut.cz">ČVUT v Praze</a></li>
+                </ul>
+                <p>Jakékoli dotazy ohledně SVATu posílejte na adresu <a href="mailto:svat@fjfi.cvut.cz">svat@fjfi.cvut.cz</a>
+                <p>Jsme dostupní i fyzickou cestou, a to na adrese:<br>
+                    <strong>Seminář vědy a techniky, 
+                    FJFI ČVUT, 
+                    Břehová 7, 
+                    115 19 Praha 1</strong><br>
+                </p>
+                <br>
+                <p>Můžete nás najít i na <a href="https://www.facebook.com/seminarvedyatechniky"><i class="fa fa-facebook"></i> Facebooku</a></p>
+              </div>
+            </div>
+
+        </footer>
+
+    </div>
+        
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{$basePath}/js/nette.forms.js"></script>
+    <script type="text/javascript" src="{$basePath}/js/nette.ajax.js"></script>
+    {block script}{/block}
+
+</body>
+</html>

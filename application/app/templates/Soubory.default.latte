@@ -1,0 +1,49 @@
+{block title}Knihovna souborů{/block}
+{block head}
+    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+    <style>
+        .texy {
+            background-color:white;font-family:'Inconsolata';white-space: nowrap; color: #A07D1F;
+        }
+    </style>
+{/block}
+
+{block content}
+<h1>Knihovna souborů</h1>
+
+<p>Zde můžete nahrávat soubory ke stažení. Pro vytvoření odkazu k jejich stažení použijte uvedená Texy makra.</p>
+
+
+{snippet}
+{control uploadForm}
+
+<table class="tasks">
+
+<tbody>
+    {foreach $files as $file}
+    <tr id="{$file->slug}" n:class="$iterator->odd ? odd : even">
+        <td>
+
+            {$file->date|date:'j. n. Y'} - <a href="{$basePath.$file->path}" target="_blank">{$file->description}</a>
+            <br>
+            Texy: <code class="texy"><strong>"text odkazu":[@{$file->slug}]</strong></code>
+
+        </td>
+
+        <td >
+            {if $file->active}
+                <a n:href="setActive! $file->slug, 0" class="ajax">deaktivovat</a>
+            {else}
+                <a n:href="setActive! $file->slug, 1" style="color:red;" class="ajax">aktivovat</a>
+            {/if}
+        </td>
+
+
+    </tr>
+
+    {/foreach}
+</tbody>
+</table>
+{/snippet}
+
+{/block}
