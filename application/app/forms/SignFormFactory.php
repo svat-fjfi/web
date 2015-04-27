@@ -20,6 +20,7 @@ class SignFormFactory extends Nette\Object {
      */
     public function create() {
         $form = new Form;
+        $form->setRenderer(new \App\Forms\Bootstrap3FormRenderer());
         $form->addText('username', 'Uživatelské jméno:')
                 ->setRequired('Zadejte prosím uživatelské jméno.');
 

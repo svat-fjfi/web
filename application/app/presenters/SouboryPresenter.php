@@ -38,6 +38,7 @@ class SouboryPresenter extends BasePresenter {
 
     protected function createComponentUploadForm() {
         $form = new Form();
+        $form->setRenderer(new \App\Forms\Bootstrap3FormRenderer());
         $form->addUpload('file', 'Soubor')
             ->addRule(Form::FILLED, 'Je nutné zvolit soubor k nahrání.');
         $form->addText('description', 'Popis')

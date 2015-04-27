@@ -2,28 +2,8 @@
 
 {block #content}
 
-<h1 n:block="title">Přihlášení</h1>
+<h1 class="page-header" n:block="title">Přihlášení</h1>
 {*
 <p>Přihlaste se jako <i>admin</i> nebo <i>john</i>, heslo je <i>s.v.a.t.</i>.</p>
 *}
-{form signInForm}
-<div class="sign-in-form">
-	{control $form errors}
-
-	<div class="pair">
-		{label username /}
-		<div class="input">{input username}</div>
-	</div>
-	<div class="pair">
-		{label password /}
-		<div class="input">{input password}</div>
-	</div>
-	<div class="pair">
-		<div class="input">{input remember} {label remember /}</div>
-	</div>
-
-	<div class="pair">
-		<div class="input">{input send}</div>
-	</div>
-</div>
-{/form}
+{control signInForm}

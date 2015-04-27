@@ -3,47 +3,64 @@
     <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
     <style>
         .texy {
-            background-color:white;font-family:'Inconsolata';white-space: nowrap; color: #A07D1F;
+            background-color:white;
+            font-family:'Inconsolata';
+            white-space: nowrap; 
+            color: #A07D1F;
+            width: 100%;
         }
     </style>
 {/block}
 
 {block content}
-<h1>Knihovna souborů</h1>
+<h1 class="page-header">Knihovna souborů</h1>
 
 <p>Zde můžete nahrávat soubory ke stažení. Pro vytvoření odkazu k jejich stažení použijte uvedená Texy makra.</p>
 
-
 {snippet}
-{control uploadForm}
+    {control uploadForm}
 
-<table class="tasks">
+    <table class="tasks table table-striped table-hover">
+        <thead>
+            <th>Datum</th>
+            <th>Soubor</th>
+            <th>Texy makro</th>
+            <th></th>
+            <th></th>
+        </thead>
+        <tbody>
+            {foreach $files as $file}
+            <tr id="{$file->slug}" n:class="$iterator->odd ? odd : even">
+                <td>
+                    {$file->date|date:'j. n. Y'} 
+                </td>
+                <td>
+                    <a href="{$basePath.$file->path}" target="_blank">{$file->description}</a>
+                </td>
+                <td>
+                    <input class="texy" onClick="this.select();" value='"text odkazu":[@{$file->slug}]'><strong></strong>
+                </td>
+                <td>
+                    {if $file->active}
+                        <span class="label label-primary"><i class="fa fa-check"></i> Aktivní</span>
+                    {else}
+                        <span class="label label-danger"><i class="fa fa-times"></i> Neaktivní</span>
+                    {/if}
+                </td>
+                <td>
+                    {if $file->active}
+                        <a n:href="setActive! $file->slug, 0" class="btn btn-default btn-xs ajax">Deaktivovat</a>
+                    {else}
+                        <a n:href="setActive! $file->slug, 1" class="btn btn-default btn-xs ajax">Aktivovat</a>
+                    {/if}
+                </td>
 
-<tbody>
-    {foreach $files as $file}
-    <tr id="{$file->slug}" n:class="$iterator->odd ? odd : even">
-        <td>
 
-            {$file->date|date:'j. n. Y'} - <a href="{$basePath.$file->path}" target="_blank">{$file->description}</a>
-            <br>
-            Texy: <code class="texy"><strong>"text odkazu":[@{$file->slug}]</strong></code>
+            </tr>
 
-        </td>
-
-        <td >
-            {if $file->active}
-                <a n:href="setActive! $file->slug, 0" class="ajax">deaktivovat</a>
-            {else}
-                <a n:href="setActive! $file->slug, 1" style="color:red;" class="ajax">aktivovat</a>
-            {/if}
-        </td>
-
-
-    </tr>
-
-    {/foreach}
-</tbody>
-</table>
+            {/foreach}
+        </tbody>
+    </table>
 {/snippet}
 
 {/block}
