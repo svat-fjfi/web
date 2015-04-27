@@ -40,8 +40,14 @@ class UserManager extends Nette\Object implements Nette\Security\IAuthenticator 
         } elseif (!Passwords::verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
             throw new Nette\Security\AuthenticationException('Neplatné heslo.', self::INVALID_CREDENTIAL);
         } elseif (Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
+            $hash = '';
+            try{
+                $hash = Passwords::hash($password);
+            } catch (Exception $ex) {
+                $hash = sha1($password);
+            }
             $row->update(array(
-                self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
+                self::COLUMN_PASSWORD_HASH => $hash,
             ));
         }
 
@@ -58,9 +64,15 @@ class UserManager extends Nette\Object implements Nette\Security\IAuthenticator 
      */
     public function add($username, $password) {
         try {
+            $hash = '';
+            try{
+                $hash = Passwords::hash($password);
+            } catch (Exception $ex) {
+                $hash = sha1($password);
+            }
             $this->database->table(self::TABLE_NAME)->insert(array(
                 self::COLUMN_NAME => $username,
-                self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
+                self::COLUMN_PASSWORD_HASH => $hash,
             ));
         } catch (Nette\Database\UniqueConstraintViolationException $e) {
             throw new DuplicateNameException;
