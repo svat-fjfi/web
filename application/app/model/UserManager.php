@@ -4,7 +4,7 @@ namespace App\Model;
 
 use \Nette,
     \Nette\Utils\Strings,
-    \App\Security\Passwords;
+    \Nette\Security\Passwords;
 
 /**
  * Users management.
@@ -37,11 +37,11 @@ class UserManager extends Nette\Object implements Nette\Security\IAuthenticator 
 
         if (!$row) {
             throw new Nette\Security\AuthenticationException('Neplatné uživatelské jméno.', self::IDENTITY_NOT_FOUND);
-        } elseif (!Passwords::verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
+        } elseif (!UserManager\Passwords::verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
             throw new Nette\Security\AuthenticationException('Neplatné heslo.', self::INVALID_CREDENTIAL);
-        } elseif (Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
+        } elseif (UserManager\Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
             $row->update(array(
-                self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
+                self::COLUMN_PASSWORD_HASH => UserManager\Passwords::hash($password),
             ));
         }
 
@@ -60,34 +60,62 @@ class UserManager extends Nette\Object implements Nette\Security\IAuthenticator 
         try {
             $this->database->table(self::TABLE_NAME)->insert(array(
                 self::COLUMN_NAME => $username,
-                self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
+                self::COLUMN_PASSWORD_HASH => UserManager\Passwords::hash($password),
             ));
         } catch (Nette\Database\UniqueConstraintViolationException $e) {
             throw new DuplicateNameException;
         }
     }
-    
-    
+
     /**
-    * Changes user password.
-    * @param  string
-    * @param  string
-    * @return void
-    */
-    public function changePassword($username, $password)
-    {
-            try {
-                    $this->database->table(self::TABLE_NAME)->update(array(
-                            self::COLUMN_NAME => $username,
-                            self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
-                    ));
-            } catch (\Exception $e) {
-                    throw new UserNotFoundException;
-            }
+     * Changes user password.
+     * @param  string
+     * @param  string
+     * @return void
+     */
+    public function changePassword($username, $password) {
+        try {
+            $this->database->table(self::TABLE_NAME)->update(array(
+                self::COLUMN_NAME => $username,
+                self::COLUMN_PASSWORD_HASH => UserManager\Passwords::hash($password),
+            ));
+        } catch (\Exception $e) {
+            throw new UserNotFoundException;
+        }
     }
 
 }
 
 class DuplicateNameException extends \Exception {
     
+}
+
+namespace App\Model\UserManager;
+
+class Passwords {
+
+    public static function hash($password) {
+        if (PHP_VERSION_ID < 50307) {
+            return sha1($password);
+        } else {
+            return \Nette\Security\Passwords::hash($password);
+        }
+    }
+    
+    public static function verify($password, $hash) {
+        if (PHP_VERSION_ID < 50307) {
+            return self::hash($password) == $hash;
+        } else {
+            return \Nette\Security\Passwords::verify($password, $hash);
+        }
+    }
+    
+    public static function needsRehash($password, $hash) {
+        if (PHP_VERSION_ID < 50307) {
+            return false;
+        } else {
+            return \Nette\Security\Passwords::needsRehash($password, $hash);
+        }
+    }
+
 }
