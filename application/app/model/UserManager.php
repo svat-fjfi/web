@@ -94,9 +94,9 @@ namespace App\Model\UserManager;
 
 class Passwords {
 
-    public static function hash($password) {
+    public static function hash($password, $salt = NULL) {
         if (PHP_VERSION_ID < 50307) {
-            return crypt($password, '$2a$07$' . \Nette\Utils\Strings::random(22));
+            return crypt($password, $salt ?: '$2a$07$' . \Nette\Utils\Strings::random(22));
         } else {
             return \Nette\Security\Passwords::hash($password);
         }
@@ -104,7 +104,7 @@ class Passwords {
     
     public static function verify($password, $hash) {
         if (PHP_VERSION_ID < 50307) {
-            return self::hash($password) == $hash;
+            return self::hash($password, $hash) == $hash;
         } else {
             return \Nette\Security\Passwords::verify($password, $hash);
         }
