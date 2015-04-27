@@ -96,7 +96,7 @@ class Passwords {
 
     public static function hash($password) {
         if (PHP_VERSION_ID < 50307) {
-            return sha1($password);
+            return crypt($password, '$2a$07$' . \Nette\Utils\Strings::random(22));
         } else {
             return \Nette\Security\Passwords::hash($password);
         }
