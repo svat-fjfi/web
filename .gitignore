@@ -4,7 +4,7 @@ application/app/config/config.local.neon
 vendor/*
 nbproject
 deploy
-files/
+files/*
 
 .htaccess
 .DS_Store
