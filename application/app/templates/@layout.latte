@@ -17,6 +17,9 @@
     <![endif]-->
 
     {block head}{/block}
+    
+    
+    
   </head>
   <body>
     
@@ -130,8 +133,12 @@
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{$basePath}/js/nette.forms.js"></script>
     <script type="text/javascript" src="{$basePath}/js/nette.ajax.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.nette.init();
+        });
+    </script>
     {block script}{/block}
 
 </body>

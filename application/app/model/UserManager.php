@@ -110,11 +110,11 @@ class Passwords {
         }
     }
     
-    public static function needsRehash($password, $hash) {
+    public static function needsRehash($password, array $options = NULL) {
         if (PHP_VERSION_ID < 50307) {
             return false;
         } else {
-            return \Nette\Security\Passwords::needsRehash($password, $hash);
+            return \Nette\Security\Passwords::needsRehash($password, $options);
         }
     }
 

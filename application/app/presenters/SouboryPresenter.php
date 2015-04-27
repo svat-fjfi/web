@@ -24,15 +24,15 @@ class SouboryPresenter extends BasePresenter {
         }
     }
 
-    public function renderDefault() {
-        $this->template->files = $this->database->table('file')->order("id DESC");
-
-    }
+    
 
 
     public function handleSetActive($id, $value) {
-        $filename = $this->database->table('file')->where(array("slug" => $id))->fetch()->update(array("active" => $value));
+        $this->database->table('file')->where(array("slug" => $id))->fetch()->update(array("active" => $value));
+
         $this->redrawControl();
+
+        
     }
 
 
@@ -80,6 +80,14 @@ class SouboryPresenter extends BasePresenter {
             $this->flashMessage('Soubor se nepodařilo nahrát. Zkuste to později.', 'error');
             $this->redrawControl();
         }
+        
+        
+
+    }
+    
+    
+    public function renderDefault() {
+        $this->template->files = $this->database->table('file')->order("id DESC");
 
     }
 
