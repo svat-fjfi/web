@@ -11,11 +11,11 @@ namespace App\Presenters;
  */
 class MaterialyPresenter extends TexyPresenter {
 
-    public function renderDefault() {
+    public function renderDefault($year) {
 
         $this->template->title = 'Materiály';
 
-        parent::renderDefault();
+        parent::renderDefault($year);
     }
 
 }

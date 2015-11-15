@@ -11,11 +11,11 @@ namespace App\Presenters;
  */
 class ZadaniPresenter extends TexyPresenter
 {
-    public function renderDefault() {
+    public function renderDefault($year) {
 
         $this->template->title = 'Zadání';
 
-        parent::renderDefault();
+        parent::renderDefault($year);
     }
 
 }

@@ -86,7 +86,7 @@ class SouboryPresenter extends BasePresenter {
     }
     
     
-    public function renderDefault() {
+    public function renderDefault($year) {
         $this->template->files = $this->database->table('file')->order("id DESC");
 
     }

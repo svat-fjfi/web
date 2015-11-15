@@ -32,6 +32,17 @@ class GitHub {
                 $this->branch,
                 $filename
         );
-        return file_get_contents($url);
+        return file_get_contents(
+            $url,
+            false,
+            stream_context_create(
+                array(
+                    "ssl"=>array(
+                        "verify_peer"=>false,
+                        "verify_peer_name"=>false,
+                    ),
+                )
+            )
+        );
     }
 }

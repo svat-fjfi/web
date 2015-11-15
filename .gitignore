@@ -3,6 +3,7 @@ application/temp/*
 application/app/config/config.local.neon
 vendor/*
 nbproject
+.idea
 deploy
 files/*
 

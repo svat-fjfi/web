@@ -17,11 +17,10 @@ class TexyPresenter extends BasePresenter {
     public function handleDownload($id) {
         $filename = $this->database->table('file')->where(array('slug' => $id))->fetch()->path;
 
-        $this->sendResponse(new Nette\Application\Responses\FileResponse(WWW_DIR.$filename));
+        $this->sendResponse(new \Nette\Application\Responses\FileResponse(WWW_DIR.$filename));
     }
 
-    public function renderDefault() {
-
+    public function renderDefault($year) {
         $texy = new \Texy();
         $texy->allowed['phrase/sup'] = TRUE; // turns on ^^superscript^^
         $texy->allowed['phrase/sub'] = TRUE; // turns on __subscript__
@@ -30,14 +29,20 @@ class TexyPresenter extends BasePresenter {
 
         try{
             preg_match('#(\w+)Presenter$#', get_class($this), $m);
-            $text = $this->github->getRawContent($m[1]);
+            $path = ($year ? $year.'/' : '').$m[1];
+            $text = $this->github->getRawContent(
+                $path
+            );
             $text = $this->preprocess($text);
             $this->template->text = $texy->process($text);
         } catch(Exception $e) {
             $this->template->text = $e;
         }
 
+        $this->template->year = $year;
+
     }
+
 
     private function preprocess($text) {
         return preg_replace_callback(
