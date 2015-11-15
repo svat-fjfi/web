@@ -18,7 +18,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     /** @var \Nette\Database\Context @inject */
     public $database;
 
-    public function renderDefault($year) {
+
+    public function beforeRender() {
+
+        $this->template->year = NULL;
 
     }
 

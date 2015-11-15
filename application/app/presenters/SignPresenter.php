@@ -33,6 +33,7 @@ class SignPresenter extends BasePresenter
 	}
 
 
+
 	public function actionOut()
 	{
 		$this->getUser()->logout();
