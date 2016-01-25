@@ -4,8 +4,8 @@
 #
 parameters:
 	github:
-		account: 'chachalaca'
-		repository: 'SVAT'
+		account: 'svat-fjfi'
+		repository: 'texts'
 		branch: 'master'            
 
 php:
