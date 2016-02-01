@@ -35,7 +35,7 @@ class TexyPresenter extends BasePresenter {
             );
             $text = $this->preprocess($text);
             $this->template->text = $texy->process($text);
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             $this->template->text = $e;
         }
 
@@ -51,7 +51,7 @@ class TexyPresenter extends BasePresenter {
                 $result = $this->database->table('file')->where(array('slug' => $matches[1], 'active' => 1))->fetch();
                 return $result
                     ? "[".$this->link("download!", $result->slug)."]"
-                    : "<span style='color:#aaa;'> nefunkční odkaz</span>"
+                    : "<span style='color:#aaa;'> nefunkční odkaz (".$matches[1].")</span>"
                 ;
             },
             $text
