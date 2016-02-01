@@ -11,7 +11,7 @@ namespace App\Model;
  */
 class GitHub {
     
-    const PATH = 'https://cdn.rawgit.com/';
+    const PATH = 'https://github.com/';
     protected $account;
     protected $repository;
     protected $branch;
@@ -25,7 +25,7 @@ class GitHub {
     
     public function getRawContent($filename) {
         $url = sprintf(
-                '%s%s/%s/%s/%s',
+                '%s%s/%s/raw/%s/%s',
                 GitHub::PATH,
                 $this->account,
                 $this->repository,
